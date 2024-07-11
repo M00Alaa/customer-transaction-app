@@ -21,6 +21,6 @@
     "total": 9
   },
   "links": {
-    "self": "http://localhost:4200/api/customers"
+    "self": "http://localhost:4200"
   }
 }

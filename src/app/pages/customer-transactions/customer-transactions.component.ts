@@ -1,9 +1,9 @@
-import { CustomersService } from './../services/customers/customers.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Transaction } from '../interfaces/transaction';
-import { Customer } from '../interfaces/customer';
-import { TransactionsService } from '../services/transactions/transactions.service';
+import { Customer } from '../../core/interfaces/customer';
+import { Transaction } from '../../core/interfaces/transaction';
+import { CustomersService } from '../../core/services/customers/customers.service';
+import { TransactionsService } from '../../core/services/transactions/transactions.service';
 
 @Component({
   selector: 'app-customer-transactions',

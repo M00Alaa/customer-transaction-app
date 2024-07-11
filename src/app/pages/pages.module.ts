@@ -1,13 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CustomerTransactionsComponent } from './customer-transactions.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { RouterModule, Routes } from '@angular/router';
 import { TransactionGraphComponent } from './transaction-graph/transaction-graph.component';
+import { CustomerTransactionsComponent } from './customer-transactions/customer-transactions.component';
 
 const routes: Routes = [
   {

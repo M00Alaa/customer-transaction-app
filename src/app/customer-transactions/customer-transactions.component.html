@@ -1,1 +1,70 @@
-<p>customer-transactions works!</p>
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center gap-3">
+        <h4 class="mb-0">
+            <span class="bx bxs-dashboard align-middle"></span>
+            Customers Transactions
+        </h4>
+
+        <button [routerLink]="'graph'" class="btn btn-sm btn-outline-primary">
+            <i class='bx bxs-bar-chart-alt-2'></i>
+            Show Chart
+        </button>
+    </div>
+
+    <div class="table-v2 mt-3">
+        <div class="mo-toolbar">
+            <div class="row row-cols-2 g-4 col-12 col-md-6 ms-auto">
+                <div class="col">
+                    <nz-input-group nzSize="default" class="bg-white rounded-2 w-100 border-primary"
+                        [nzPrefix]="prefixIconSearch">
+                        <input [(ngModel)]="searchText" (ngModelChange)="getAllTransactions()" type="text" nz-input
+                            placeholder="Search by Customer Name .." />
+                    </nz-input-group>
+                </div>
+
+                <div class="col">
+                    <nz-input-group nzSize="default" class="bg-white rounded-2 w-100 border-primary"
+                        [nzPrefix]="prefixIconSearch">
+                        <input [(ngModel)]="searchAmount" (ngModelChange)="getAllTransactions()" type="text" nz-input
+                            placeholder="Search by Transaction Amount .." />
+                    </nz-input-group>
+                </div>
+
+
+                <ng-template #prefixIconSearch>
+                    <span class="bx bx-search text-primary me-1"></span>
+                </ng-template>
+            </div>
+        </div>
+
+        <nz-table nzSize="small" class="v2 table-responsive" [nzLoading]="gettingTransactions" #basicTable
+            [nzBordered]="false" [nzTableLayout]="'auto'" [nzData]="filteredTransactions" [nzFrontPagination]="false"
+            [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th class="text-center h5">
+                        #
+                    </th>
+                    <th class="text-center h5">
+                        Customer Name
+                    </th>
+                    <th class="text-center h5">
+                        Transaction Date
+                    </th>
+                    <th class="text-center h5">
+                        Transaction Amount
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="cursor: pointer;" [routerLink]="[transaction.customer_id]"
+                    *ngFor="let transaction of filteredTransactions; let index = index;">
+                    <td>{{ index + 1 }}</td>
+                    <td class="fw-semibold">{{ getCustomerName(transaction.customer_id) }}</td>
+                    <td>{{ transaction.date }}</td>
+                    <td>{{ transaction.amount }}</td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>

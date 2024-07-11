@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomerTransactionsComponent } from './customer-transactions.component';
@@ -28,7 +29,8 @@ const routes: Routes = [
     FormsModule,
     NzTableModule,
     NzDividerModule,
-    NzInputModule
+    NzInputModule,
+    HttpClientModule
   ]
 })
 export class CustomerTransactionsModule { }

@@ -1,42 +1,52 @@
-import { Component } from '@angular/core';
+import { CustomersService } from './../services/customers/customers.service';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Transaction } from '../interfaces/transaction';
+import { Customer } from '../interfaces/customer';
+import { TransactionsService } from '../services/transactions/transactions.service';
 
 @Component({
   selector: 'app-customer-transactions',
   templateUrl: './customer-transactions.component.html',
-  styleUrl: './customer-transactions.component.scss'
+  styleUrls: ['./customer-transactions.component.scss']
 })
-export class CustomerTransactionsComponent {
+export class CustomerTransactionsComponent implements OnInit {
   searchText = '';
   searchAmount: number | undefined = undefined;
   gettingTransactions = false;
 
-  customers = [
-    { id: 1, name: "Ahmed Ali" },
-    { id: 2, name: "Aya Elsayed" },
-    { id: 3, name: "Mina Adel" },
-    { id: 4, name: "Sarah Reda" },
-    { id: 5, name: "Mohamed Sayed" }
-  ];
+  customers: Customer[] = [];
+  transactions: Transaction[] = [];
+  filteredTransactions: Transaction[] = [];
 
-  transactions = [
-    { id: 1, customer_id: 1, date: "2022-01-01", amount: 1000 },
-    { id: 2, customer_id: 1, date: "2022-01-02", amount: 2000 },
-    { id: 3, customer_id: 2, date: "2022-01-01", amount: 550 },
-    { id: 4, customer_id: 3, date: "2022-01-01", amount: 500 },
-    { id: 5, customer_id: 2, date: "2022-01-02", amount: 1300 },
-    { id: 6, customer_id: 4, date: "2022-01-01", amount: 750 },
-    { id: 7, customer_id: 3, date: "2022-01-02", amount: 1250 },
-    { id: 8, customer_id: 5, date: "2022-01-01", amount: 2500 },
-    { id: 9, customer_id: 5, date: "2022-01-02", amount: 875 }
-  ];
+  constructor(
+    private http: HttpClient,
+    private customersService: CustomersService,
+    private transactionsService: TransactionsService
+  ) { }
 
-  filteredTransactions = [...this.transactions];
+  getCustomers() {
+    this.customersService.getCustomers().subscribe(customers => {
+      console.log('Customers:', customers);
+      this.customers = customers;
+    }, error => {
+      console.error('Error fetching customers:', error);
+    });
+  }
+
+  getTransactions() {
+    this.transactionsService.getTransactions().subscribe(transactions => {
+      console.log('Transactions:', transactions);
+      this.transactions = transactions;
+      this.filteredTransactions = [...this.transactions];
+    }, error => {
+      console.error('Error fetching transactions:', error);
+    });
+  }
 
   ngOnInit(): void {
-    this.gettingTransactions = true;
-    setTimeout(() => {
-      this.gettingTransactions = false;
-    }, 1000);
+    this.getCustomers();
+    this.getTransactions();
   }
 
   getCustomerName(id: number) {
@@ -48,7 +58,6 @@ export class CustomerTransactionsComponent {
       const customerName = this.getCustomerName(transaction.customer_id)?.toLowerCase() || '';
       const matchesName = customerName.includes(this.searchText.toLowerCase());
       const matchesAmount = this.searchAmount ? transaction.amount === +this.searchAmount : true;
-      // const matchesAmount = transaction.amount.toString().includes(this.searchAmount!.toString()) || '';
       return matchesName && matchesAmount;
     });
   }
